@@ -21,7 +21,7 @@ public class MarkdownParse {
             toReturn.add(markdown.substring(openParen + 1, closeParen));
             currentIndex = closeParen + 1;
 
-            if (currentIndex < previousIndex) {
+            if (currentIndex <= previousIndex) {
                 throw new IOException();
             }
             
