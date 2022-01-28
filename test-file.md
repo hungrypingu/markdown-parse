@@ -3,4 +3,4 @@
 [a link!](https://something.com)
 [another link!](some-page.html)
 
-[](hello)
+[](hello) beep boop
