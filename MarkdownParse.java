@@ -17,11 +17,15 @@ public class MarkdownParse {
             int openParen = markdown.indexOf("(", nextCloseBracket);
             int closeParen = markdown.indexOf(")", openParen);
 
+            //checks for infinite looping
             if (nextOpenBracket == -1 || nextCloseBracket == -1 || openParen == -1 || closeParen == -1) {
                 break;
             }
 
-            toReturn.add(markdown.substring(openParen + 1, closeParen));
+            //checks for brackets and parentheses with stuff between them, and empty links
+            if (nextCloseBracket + 1 == openParen && openParen + 1 != closeParen) {
+                toReturn.add(markdown.substring(openParen + 1, closeParen));
+            }
             
             currentIndex = closeParen + 1;
         }
