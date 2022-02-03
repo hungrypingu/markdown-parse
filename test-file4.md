@@ -1,4 +1,4 @@
-[](a link on the first line)
+[](firstlinelink)
 []()
 
 beep

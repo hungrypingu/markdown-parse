@@ -22,9 +22,11 @@ public class MarkdownParse {
                 break;
             }
 
-            //checks for brackets and parentheses with stuff between them, and empty links
-            if (nextCloseBracket + 1 == openParen && openParen + 1 != closeParen) {
-                toReturn.add(markdown.substring(openParen + 1, closeParen));
+            String newLink = markdown.substring(openParen + 1, closeParen);
+
+            //checks for brackets and parentheses with stuff between them, empty links, and links with spaces
+            if (nextCloseBracket + 1 == openParen && openParen + 1 != closeParen && !newLink.contains(" ")) {
+                toReturn.add(newLink);
             }
             
             currentIndex = closeParen + 1;
