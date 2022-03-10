@@ -16,6 +16,11 @@ public class MarkdownParseTest {
 
     @Test
     public void testGetLinks() throws IOException {
+
+        //needs to be run using
+        //javac -cp ".;lib\junit-4.13.2.jar;lib\hamcrest-core-1.3.jar" 	MarkdownParseTest.java
+        //java -cp ".;lib/junit-4.13.2.jar;lib/hamcrest-core-1.3.jar" org.junit.runner.JUnitCore MarkdownParseTest
+
         Path filename = Path.of("test-file2.md");
         String contents = Files.readString(filename);
         assertEquals(MarkdownParse.getLinks(contents), List.of("https://something.com", "some-page.html"));
@@ -35,6 +40,26 @@ public class MarkdownParseTest {
         filename = Path.of("test-file9.md");
         contents = Files.readString(filename);
         assertEquals(MarkdownParse.getLinks(contents), List.of("some-page.html"));
+
+        //tests snippets, week 8
+        //snippet1
+        filename = Path.of("snippet1.md");
+        contents = Files.readString(filename);
+        //assertEquals(List.of("url.com", "`google.com", "google.com", "ucsd.edu"), 
+        //    MarkdownParse.getLinks(contents));
+
+        //snippet2
+        filename = Path.of("snippet2.md");
+        contents = Files.readString(filename);
+        //assertEquals(List.of("a.com", "a.com(())", "example.com"), 
+        //    MarkdownParse.getLinks(contents));        
+
+        //snippet3
+        filename = Path.of("snippet3.md");
+        contents = Files.readString(filename);
+        assertEquals(List.of("https://www.twitter.com", "https://ucsd-cse15l-w22.github.io/", 
+            "https://cse.ucsd.edu/"), MarkdownParse.getLinks(contents));        
+
     }
 
     /*
