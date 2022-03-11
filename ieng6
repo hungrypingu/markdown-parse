@@ -1,0 +1,60 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+
+import org.commonmark.node.*;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+
+class WordCountVisitor extends AbstractVisitor {
+    public int wordCount = 0;
+
+    @Override
+    public void visit(Text text) {
+        // This is called for all Text nodes. Override other visit methods for other node types.
+
+        // Count words (this is just an example, don't actually do it this way for various reasons).
+        wordCount += text.getLiteral().split("\\W+").length;
+
+        // Descend into children (could be omitted in this case because Text nodes don't have children).
+        visitChildren(text);
+    }
+}
+
+class LinkCountVisitor extends AbstractVisitor {
+    public int linkCount = 0;
+    public ArrayList<Link> links = new ArrayList<Link>();
+
+    @Override
+    public void visit(Link link) {
+
+        linkCount ++;
+        links.add(link);
+        visitChildren(link);
+    }
+}
+
+public class CommonMarkdownParse {
+    public static ArrayList<String> getLinks(String markdown) throws IOException {
+        
+        ArrayList<String> links = new ArrayList<String>();
+
+        Parser parser = Parser.builder().build();
+        Node document = parser.parse(markdown);
+        LinkCountVisitor linkVisitor = new LinkCountVisitor();
+        document.accept(linkVisitor);
+
+        for (Link l : linkVisitor.links) {
+            links.add(l.getDestination());
+        }
+
+        return links;
+    }
+    public static void main(String[] args) throws IOException {
+		Path fileName = Path.of(args[0]);
+	    String contents = Files.readString(fileName);
+        ArrayList<String> links = getLinks(contents);
+        System.out.println(links);
+    }
+}
